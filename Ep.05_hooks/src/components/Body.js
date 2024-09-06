@@ -1,13 +1,12 @@
 import ResCard from "./ResCard";
 import API_DATA from "../utils/mockData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Body = () => {
   const [listOfRes, setListOfRes] = useState(API_DATA);
-
   const [ratingFilter, SetRatingFilter] = useState(false);
 
-  const handleRatingFilter = () => {
+  useEffect(() => {
     if (ratingFilter) {
       const filterList = listOfRes.filter(
         (res) => res.card.card.info.avgRating > 4
@@ -16,7 +15,8 @@ const Body = () => {
     } else {
       setListOfRes(API_DATA);
     }
-  };
+  }, [ratingFilter]);
+
 
   return (
     <div className="body">
@@ -24,9 +24,7 @@ const Body = () => {
         <button
           className="filter-btn"
           onClick={() => {
-            // filter logic here
             SetRatingFilter(!ratingFilter);
-            handleRatingFilter();
           }}
         >
           Top Rated Res
