@@ -9,19 +9,17 @@ class UserClass extends React.Component {
     };
   }
 
+  componentDidMount() {}
+
   render() {
-    const { name, location } = this.props;
+    const { name, location, image_url } = this.props;
     const { count } = this.state;
     return (
       <div className="user-card">
-        <h1>count : {count}</h1>
-        <button
-          onClick={() => {
-            this.setState({ count: this.state.count + 1 });
-          }}
-        >
-          Count inc
-        </button>
+        <img
+          src={image_url}
+          style={{ width: "150px", height: "150px", objectFit: "contain" }}
+        />
         <h2>Name : {name}</h2>
         <h3>Location : {location}</h3>
         <h4>Contact : shitole</h4>
