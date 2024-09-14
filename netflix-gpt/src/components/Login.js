@@ -1,13 +1,26 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidateData } from "../utils/validate";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../utils/firebase";
-const Login = () => {
-  const [isSignInForm, setIsSignInForm] = useState(true);
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../utils/userSlice"; // Assuming you have this action in your Redux store
+import { github_Profile_Img, login_BG_Url } from "../utils/constants";
 
+const Login = () => {
+  const selector = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  console.log(selector);
+  const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const navigate = useNavigate();
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
@@ -18,7 +31,7 @@ const Login = () => {
 
   const handleButtonClick = (e) => {
     e.preventDefault();
-    //validate form data
+    // Validate form data
     const message = checkValidateData(
       email.current.value,
       password.current.value
@@ -27,28 +40,71 @@ const Login = () => {
 
     if (message) return;
 
-    //sign in and sign up
-
+    // Sign up or sign in
     if (!isSignInForm) {
+      // Sign up
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
-          // Signed up
           const user = userCredential.user;
-          console.log(user);
-          // ...
+          // Update the profile with name and photo URL
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: { github_Profile_Img },
+          })
+            .then(() => {
+              // Fetch the updated user object after profile update
+              const updatedUser = auth.currentUser;
+              const { uid, email, displayName, photoURL } = updatedUser;
+
+              // Dispatch with updated user details
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+            })
+            .catch((error) => {
+              setErrorMessage(error.code + " - " + error.message);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          setErrorMessage(errorCode + "-" + errorMessage);
-          // ..
+          setErrorMessage(errorCode + " - " + errorMessage);
         });
     } else {
-      // signIn
+      // Sign in
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          // Optionally, dispatch the user data into Redux store
+          const { uid, email, displayName, photoURL } = user;
+          dispatch(
+            addUser({
+              uid: uid,
+              email: email,
+              displayName: displayName,
+              photoURL: photoURL,
+            })
+          );
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + " - " + errorMessage);
+        });
     }
   };
 
@@ -57,7 +113,7 @@ const Login = () => {
       <Header />
       <div className="absolute top-0 left-0 w-full h-full z-0">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/85ff76db-39e5-423a-afbc-97d3e74db71b/null/IN-en-20240909-TRIFECTA-perspective_b22117e0-4610-4d57-a695-20f77d241a4a_small.jpg"
+          src={login_BG_Url}
           alt="background-img"
           className="w-full h-full object-cover"
         />

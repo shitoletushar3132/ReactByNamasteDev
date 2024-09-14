@@ -10,6 +10,11 @@
 - useRef Hook
 - deploying firebase
 - create signup user Account
+- implement sign in User api
+- created redux store with userSlice
+- BugFix: Sign up user display name and profile picture update
+- Bugfix : if the user is not logged in redirect /browse to login page and vice-versa
+- Unsubscibe to the onAuthStateChanged callback
 
 # Features
 
