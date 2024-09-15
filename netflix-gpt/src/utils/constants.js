@@ -3,3 +3,15 @@ export const login_BG_Url =
 
 export const github_Profile_Img =
   "https://avatars.githubusercontent.com/u/153802284?v=4";
+
+export const logo_Url =
+  "https://i.pinimg.com/564x/d7/19/6a/d7196adc7c4f353d52235c5e6ed12e65.jpg";
+
+export const API_OPTIONS = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZDQ3ZThkYjliYjIyOTA1YzMyMjNhZjg4OGRmNzk5NCIsIm5iZiI6MTcyNjM4MjEzNi44MDg2NTUsInN1YiI6IjY2ZTY3ZjY1ZDdiY2NhNTI0ZGIwNjZlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.kv9ek1FNBSUn_hJwufcTcQANMUGyTw0RGhWFmxgnJYY",
+  },
+};

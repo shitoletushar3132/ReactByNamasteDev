@@ -10,7 +10,7 @@ import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice"; // Assuming you have this action in your Redux store
-import { github_Profile_Img, login_BG_Url } from "../utils/constants";
+import { logo_Url, login_BG_Url } from "../utils/constants";
 
 const Login = () => {
   const selector = useSelector((state) => state.user);
@@ -53,7 +53,7 @@ const Login = () => {
           // Update the profile with name and photo URL
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL: { github_Profile_Img },
+            photoURL: logo_Url,
           })
             .then(() => {
               // Fetch the updated user object after profile update

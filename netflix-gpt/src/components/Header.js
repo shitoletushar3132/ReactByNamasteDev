@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import netflixLogo from "../assets/Netflix_Logo.png";
-import userLogo from "../assets/userLogo.jpg";
 import { auth } from "../utils/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
+
 const Header = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
@@ -64,7 +64,7 @@ const Header = () => {
           </div>
 
           <div
-            className={`absolute px-5 py-2 mt-1 bg-gray-700 bg-opacity-60 text-white top-12 right-0 rounded font-bold flex flex-col items-start ${
+            className={`absolute px-5 py-2 mt-2 bg-gray-700 bg-opacity-60 text-white top-12 right-0 rounded font-bold flex flex-col items-start ${
               show ? "flex" : "hidden"
             }`}
           >
